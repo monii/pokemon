@@ -7,7 +7,7 @@ interface PokemonListProps {
   pokemons: GetPokemonWithNameDTO[];
 }
 
-const ListContainer = styled.div`
+const ListContainer = styled.section`
   max-width: 1200px;
   display: flex;
   margin: 0 auto;
@@ -21,7 +21,7 @@ function PokemonList({ pokemons }: PokemonListProps) {
   return (
     <ListContainer>
       {pokemons.map((pokemon) => (
-        <PokemonCard key={pokemon.name} pokemon={pokemon} />
+        <PokemonCard key={pokemon.name} pokemonName={pokemon.name} />
       ))}
     </ListContainer>
   );
