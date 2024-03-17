@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
 
-
 import { useQueries, useQuery } from "react-query";
 import pokemonAPI from "../../../api/pokemon";
 import styled from "styled-components";
 import { FaLongArrowAltRight } from "react-icons/fa";
-import {
-  GetEvolutionChainsDTO,
-} from "../../../types/pokemonEvolution";
+import { GetEvolutionChainsDTO } from "../../../types/pokemonEvolution";
 import usePokemonStore from "../../../store/pokemon";
-import { getEvolutionChainWidthId } from "../../../util/utile";
+import { convertNameToKoean, getEvolutionChainWidthId } from "../../../util/utile";
 
 const EvolutionContainer = styled.article`
   display: flex;
@@ -43,7 +40,9 @@ const PokemonImage = styled.img`
   width: 80px;
   height: 80px;
 `;
-const Text = styled.p``;
+const Text = styled.p`
+  padding-top: 8px;
+`;
 const ArrowWrapper = styled.div<{ isDisplay: boolean }>`
   display: ${(props) => (props.isDisplay ? "block" : "none")};
 
@@ -53,8 +52,8 @@ const ArrowWrapper = styled.div<{ isDisplay: boolean }>`
 `;
 
 function Evolution() {
-  const { evolutionId } = usePokemonStore();
-  const [evolutionIds, setEvolutionId] = useState<number[]>([]);
+  const { evolutionId , setEvolutionId} = usePokemonStore();
+  const [evolutionIds, setEvolutionIds] = useState<number[]>([]);
 
   const { data: evolutionInfo } = useQuery<GetEvolutionChainsDTO>(
     ["getEvolutionChains", evolutionId],
@@ -62,7 +61,7 @@ function Evolution() {
     {
       enabled: !!evolutionId,
       onSuccess: (evolutionInfo) =>
-        setEvolutionId(getEvolutionChainWidthId(evolutionInfo.chain)),
+      setEvolutionIds(getEvolutionChainWidthId(evolutionInfo.chain)),
     }
   );
 
@@ -77,14 +76,32 @@ function Evolution() {
     }))
   );
 
-   // 로딩 중인 경우 null을 반환하여 컴포넌트를 숨깁니다.
-   if (evolutionQueries.some((query) => query.isLoading)) {
+  const speciesQueries = useQueries(
+    evolutionIds.map((id) => ({
+      queryKey: ["getPokemonSpeciesById", id],
+      queryFn: async () => {
+        const pokemonSpeciesData = await pokemonAPI.getPokemonSpeciesById(id);
+        return pokemonSpeciesData;
+      },
+      enabled: evolutionIds.length > 0,
+    }))
+  );
+
+  useEffect(()=>{
+    return()=>{
+      setEvolutionId("0"); // unmount시에 전역스토어의 값을 초기화
+    }
+  },[])
+
+
+  // 로딩 중인 경우 null을 반환하여 컴포넌트를 숨깁니다.
+  if (evolutionQueries.some((query) => query.isLoading)) {
     return null;
   }
-  
+
   return (
     <EvolutionContainer>
-      {evolutionQueries.map(({ data: pokemon, isLoading, ...rest }, index) => (
+      {evolutionQueries.map(({ data: pokemon, ...rest }, index) => (
         <EvolutionChainWrapper key={pokemon?.id}>
           <InfoWrapper>
             <ImageWrapper>
@@ -93,7 +110,7 @@ function Evolution() {
                 src={pokemon?.sprites?.other.dream_world.front_default}
               />
             </ImageWrapper>
-            <Text>{pokemon?.name}</Text>
+            <Text>{convertNameToKoean(speciesQueries[index].data?.names)}</Text>
           </InfoWrapper>
           <ArrowWrapper isDisplay={index !== evolutionQueries.length - 1}>
             <FaLongArrowAltRight />

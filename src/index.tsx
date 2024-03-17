@@ -7,7 +7,14 @@ import GlobalStyle from "./styles/globalStyle";
 import App from "./App";
 import { theme } from "./styles/theme";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false, 
+      retry: false
+    },
+  },
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

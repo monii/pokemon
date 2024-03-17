@@ -8,7 +8,7 @@ interface PokemonStore {
   setSearchTerm: (searchTerm:string) => void;
 }
 const usePokemonStore = create<PokemonStore>((set) => ({
-  evolutionId: 1,
+  evolutionId: 0,
   searchTerm: "",
   setEvolutionId: (url: string) => {
     const id = splitString(url, "/").at(-2);
