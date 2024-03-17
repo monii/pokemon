@@ -1,20 +1,21 @@
-import { useQuery } from "react-query";
-import pokemonAPI from "../../api/pokemon";
-import { useNavigate, useParams } from "react-router-dom";
-
 import styled from "styled-components";
+import { useQuery } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
+import { FaLongArrowAltLeft } from "react-icons/fa";
+
 import Chip from "../../components/common/Chip";
-import { GetPokemonDTO } from "../../types/pokemon";
 import Evolution from "./components/Evolution";
 import usePokemonStore from "../../store/pokemon";
+import pokemonAPI from "../../api/pokemon";
+import { GetPokemonDTO } from "../../types/pokemon";
 import { GetPokemonSpeciesDTO } from "../../types/pokemonSpecies";
-import { FaLongArrowAltLeft } from "react-icons/fa";
 import {
   convertNameToKoean,
   convertToNumber,
   convertTypeToKoean,
   findColorByType,
 } from "../../util/utile";
+import { BACK_BUTTON_TEXT } from "../../constant/const";
 
 const PokemonDetailContainer = styled.div`
   position: relative;
@@ -63,7 +64,11 @@ const TypeWrapper = styled.div`
   padding-bottom: 12px;
 `;
 const BackButtonWrapper = styled.section``;
-const BackButton = styled.button``;
+const BackButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
 
 function PokemonDetail() {
   const navigate = useNavigate();
@@ -95,9 +100,9 @@ function PokemonDetail() {
     <PokemonDetailContainer>
       <PokemonDetailChildren>
         <BackButtonWrapper>
-          <BackButton>
-            <FaLongArrowAltLeft size="40" onClick={clickBackButton} />
-            <p>뒤로가기</p>
+          <BackButton onClick={clickBackButton}>
+            <FaLongArrowAltLeft size="40" />
+            <p>{BACK_BUTTON_TEXT}</p>
           </BackButton>
         </BackButtonWrapper>
         <ContentSection>
