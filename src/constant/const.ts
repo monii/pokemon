@@ -51,7 +51,10 @@ export const POKEMON_TYPES: PokemonTypes = {
   unknown: "???",
 };
 
-
 export const LIST_LIMIT = 20;
 
-export const DEFAULT_LANGUAGE = "ko"
+export const DEFAULT_LANGUAGE = "ko";
+
+export const LOADIN_TEXT = "Loading...";
+
+export const BACK_BUTTON_TEXT = "뒤로가기";

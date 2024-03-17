@@ -2,16 +2,17 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "react-query";
-
-import pokemonAPI from "../../api/pokemon";
-import PokemonList from "../pokemonList/PokemonList";
-import { GetPokemonDTO, GetPokemonListDTO } from "../../types/pokemon";
 import { useSearchParams } from "react-router-dom";
-import { LIST_LIMIT } from "../../constant/const";
-import { convertToNumber } from "../../util/utile";
-import usePokemonStore from "../../store/pokemon";
+
+import PokemonList from "../pokemonList/PokemonList";
 import PokemonCard from "../pokemonList/components/PokemonCard";
 import Search from "./components/Search";
+import Loading from "../../components/common/Loading";
+import usePokemonStore from "../../store/pokemon";
+import pokemonAPI from "../../api/pokemon";
+import { GetPokemonDTO, GetPokemonListDTO } from "../../types/pokemon";
+import { convertToNumber } from "../../util/utile";
+import { LIST_LIMIT } from "../../constant/const";
 
 const MainContainer = styled.main`
   padding: 0px 20px;
@@ -52,7 +53,7 @@ function Main() {
   return (
     <MainContainer>
       <Search />
-      {getPokemonListStatus === "loading" && <div>로딩중...</div>}
+      {getPokemonListStatus === "loading" && <Loading />}
       {getPokemonListStatus === "success" && (
         <>
           {searchTerm === "" ? (

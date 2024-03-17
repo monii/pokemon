@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-
-import { useQueries, useQuery } from "react-query";
-import pokemonAPI from "../../../api/pokemon";
 import styled from "styled-components";
+import { useEffect, useState } from "react";
+import { useQueries, useQuery } from "react-query";
 import { FaLongArrowAltRight } from "react-icons/fa";
-import { GetEvolutionChainsDTO } from "../../../types/pokemonEvolution";
+
 import usePokemonStore from "../../../store/pokemon";
+import pokemonAPI from "../../../api/pokemon";
+import { GetEvolutionChainsDTO } from "../../../types/pokemonEvolution";
 import { convertNameToKoean, getEvolutionChainWidthId } from "../../../util/utile";
 
 const EvolutionContainer = styled.article`

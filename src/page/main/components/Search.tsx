@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import Input from "../../../components/common/Input";
+import useDebounce from "../../../hook/useDebounce";
 import usePokemonStore from "../../../store/pokemon";
 import { LIST_LIMIT } from "../../../constant/const";
-import useDebounce from "../../../hook/useDebounce";
 
 const SearchContainer = styled.section`
   padding: 20px 0px;
@@ -38,7 +38,7 @@ function Search() {
   return (
     <SearchContainer>
       <SearchWrapper>
-        <Input value={userInput} onChange={changeSearchTerm} />
+        <Input placeholder="포켓몬 아이디를 입력해주세요!" value={userInput} onChange={changeSearchTerm} />
       </SearchWrapper>
     </SearchContainer>
   );

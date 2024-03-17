@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 
 import pokemonAPI from "../../../api/pokemon";
 import { GetPokemonDTO } from "../../../types/pokemon";
+import { GetPokemonSpeciesDTO } from "../../../types/pokemonSpecies";
 import {
   convertId,
   convertNameToKoean,
   findColorByType,
 } from "../../../util/utile";
-import { GetPokemonSpeciesDTO } from "../../../types/pokemonSpecies";
 
 interface PokemonCardProps {
   pokemonName: string;
@@ -17,6 +17,7 @@ interface PokemonCardProps {
 
 const CardContainer = styled.div<{ bordercolor: string }>`
   padding: 1.4rem;
+  max-width: 230px;
   border: 2px solid ${(props) => props.bordercolor};
   border-radius: 8px;
 `;
@@ -33,41 +34,40 @@ const PokemonImage = styled.img`
 `;
 const DataWrapper = styled.section``;
 const Text = styled.p`
+  text-align: center;
 `;
 
 function PokemonCard({ pokemonName }: PokemonCardProps) {
-  const { data: pokemonInfo } =
-    useQuery<GetPokemonDTO>(["getPokemon", pokemonName], () =>
-      pokemonAPI.getPokemonByName(pokemonName)
-    );
-  const { data: pokemonSpeciesInfo } =
-    useQuery<GetPokemonSpeciesDTO>(
-      ["getPokemonSpeciesByName", pokemonName],
-      () => pokemonAPI.getPokemonSpeciesByName(pokemonName)
-    );
+  const { data: pokemonInfo } = useQuery<GetPokemonDTO>(
+    ["getPokemon", pokemonName],
+    () => pokemonAPI.getPokemonByName(pokemonName)
+  );
+  const { data: pokemonSpeciesInfo } = useQuery<GetPokemonSpeciesDTO>(
+    ["getPokemonSpeciesByName", pokemonName],
+    () => pokemonAPI.getPokemonSpeciesByName(pokemonName)
+  );
 
-    return (
-      <Link to={`pokemon/${pokemonInfo?.id}`}>
-        <CardContainer
-          bordercolor={findColorByType(
-            pokemonInfo?.types[0].type.name || "default"
-          )}
-        >
-          <Text>{convertId(pokemonInfo?.id)}</Text>
-          <ImageWrapper>
-            <PokemonImage
-              loading="lazy"
-              alt={pokemonInfo?.name}
-              src={pokemonInfo?.sprites.other.dream_world.front_default}
-            />
-          </ImageWrapper>
-          <DataWrapper>
-            <Text>{convertNameToKoean(pokemonSpeciesInfo?.names)}</Text>
-            <Text></Text>
-          </DataWrapper>
-        </CardContainer>
-      </Link>
-    );
+  return (
+    <Link to={`pokemon/${pokemonInfo?.id}`}>
+      <CardContainer
+        bordercolor={findColorByType(
+          pokemonInfo?.types[0].type.name || "default"
+        )}
+      >
+        <Text>{convertId(pokemonInfo?.id)}</Text>
+        <ImageWrapper>
+          <PokemonImage
+            loading="lazy"
+            alt={pokemonInfo?.name}
+            src={pokemonInfo?.sprites.other.dream_world.front_default}
+          />
+        </ImageWrapper>
+        <DataWrapper>
+          <Text>{convertNameToKoean(pokemonSpeciesInfo?.names)}</Text>
+        </DataWrapper>
+      </CardContainer>
+    </Link>
+  );
 }
 
 export default PokemonCard;
