@@ -6,12 +6,12 @@ import { useInfiniteQuery } from "react-query";
 import pokemonAPI from "../../api/pokemon";
 import PokemonList from "../pokemonList/PokemonList";
 import { GetPokemonDTO, GetPokemonListDTO } from "../../types/pokemon";
-import Search from "./components/Search";
 import { useSearchParams } from "react-router-dom";
 import { LIST_LIMIT } from "../../constant/const";
 import { convertToNumber } from "../../util/utile";
 import usePokemonStore from "../../store/pokemon";
 import PokemonCard from "../pokemonList/components/PokemonCard";
+import Search from "./components/Search";
 
 const MainContainer = styled.main`
   padding: 0px 20px;
@@ -26,7 +26,7 @@ function Main() {
   const {
     data: pokemonList,
     fetchNextPage,
-    status: getPokemonListStatus, // loading, error, success 중 하나의 상태, string,
+    status: getPokemonListStatus,
   } = useInfiniteQuery<GetPokemonListDTO | GetPokemonDTO>(
     ["getPokemonList", searchTerm],
     ({ pageParam: page = 0 }) =>
@@ -49,21 +49,21 @@ function Main() {
     }
   }, [inView]);
 
-  console.log("pokemonList", pokemonList);
   return (
     <MainContainer>
       <Search />
       {getPokemonListStatus === "loading" && <div>로딩중...</div>}
       {getPokemonListStatus === "success" && (
         <>
-          {!searchTerm ? (
+          {searchTerm === "" ? (
             <>
-              {"results" in pokemonList &&
-                pokemonList.pages.map((page, index) => {
-                  if ("results" in page) {
-                    return <PokemonList key={index} pokemons={page.results} />;
-                  }
-                })}
+              {pokemonList?.pages.map((page, index) => {
+                if ("results" in page) {
+                  return <PokemonList key={index} pokemons={page.results} />;
+                } else {
+                  return null;
+                }
+              })}
               <div ref={ref} />
             </>
           ) : (
@@ -71,6 +71,8 @@ function Main() {
               {pokemonList?.pages.map((page, index) => {
                 if ("name" in page) {
                   return <PokemonCard key={index} pokemonName={page.name} />;
+                } else {
+                  return null;
                 }
               })}
             </>

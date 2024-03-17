@@ -15,6 +15,10 @@ const ListContainer = styled.section`
   justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
+
+  &:not(:first-child) {
+    padding-top:10px;
+  }
 `;
 
 function PokemonList({ pokemons }: PokemonListProps) {

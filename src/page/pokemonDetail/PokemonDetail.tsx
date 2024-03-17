@@ -9,7 +9,7 @@ import Evolution from "./components/Evolution";
 import usePokemonStore from "../../store/pokemon";
 import { GetPokemonSpeciesDTO } from "../../types/pokemonSpecies";
 import { FaLongArrowAltLeft } from "react-icons/fa";
-import { convertToNumber, findColorByType } from "../../util/utile";
+import { convertNameToKoean, convertToNumber, convertTypeToKoean, findColorByType } from "../../util/utile";
 
 const PokemonDetailContainer = styled.div<{ bordercolor: string }>`
   padding: 12px 20px;
@@ -28,9 +28,8 @@ const ContentSection = styled.section`
 `;
 const ImageSection = styled.section``;
 const ImageWrapper = styled.div`
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
+  width: 250px;
+  height: 250px;
 `;
 const PokemonImage = styled.img`
   width: 80%;
@@ -45,7 +44,8 @@ const TypeWrapper = styled.div`
   padding-bottom: 12px;
 `;
 const BackButtonWrapper = styled.section``;
-const BackButton = styled.button``;
+const BackButton = styled.button`
+`;
 
 function PokemonDetail() {
   const navigate = useNavigate();
@@ -59,13 +59,13 @@ function PokemonDetail() {
     }
   );
 
-  const { data: speciesInfo } = useQuery<GetPokemonSpeciesDTO>(
+  const { data: pokemonSpeciesInfo } = useQuery<GetPokemonSpeciesDTO>(
     ["getPokemonSpeciesById", pokemonId],
     () => pokemonAPI.getPokemonSpeciesById(convertToNumber(pokemonId)),
     {
       enabled: !!pokemonId,
-      onSuccess: (speciesInfo) =>
-        setEvolutionId(speciesInfo.evolution_chain.url),
+      onSuccess: (pokemonSpeciesInfo) =>
+        setEvolutionId(pokemonSpeciesInfo.evolution_chain.url),
     }
   );
 
@@ -82,6 +82,7 @@ function PokemonDetail() {
       <BackButtonWrapper>
         <BackButton>
           <FaLongArrowAltLeft size="40" onClick={clickBackButton} />
+          <p>뒤로가기</p>
         </BackButton>
       </BackButtonWrapper>
       <ContentSection>
@@ -95,18 +96,18 @@ function PokemonDetail() {
           </ImageWrapper>
         </ImageSection>
         <InfoWrapper>
-          <NameText>{pokemonDetailInfo?.name}</NameText>
+          <NameText>{convertNameToKoean(pokemonSpeciesInfo?.names)}</NameText>
           <TypeWrapper>
             {pokemonDetailInfo?.types.map((type) => (
               <Chip
-                type={type.type.name}
+                key={type.type.name}
+                type={convertTypeToKoean(type.type.name)}
                 backgroundcolor={findColorByType(type.type.name)}
                 borderRadius={5}
               />
             ))}
           </TypeWrapper>
-
-          <Evolution />
+          <Evolution  />
         </InfoWrapper>
       </ContentSection>
     </PokemonDetailContainer>

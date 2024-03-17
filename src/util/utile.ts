@@ -1,5 +1,6 @@
-import { COLORS } from "../constant/const";
+import { COLORS, DEFAULT_LANGUAGE, POKEMON_TYPES } from "../constant/const";
 import { ChainLink } from "../types/pokemonEvolution";
+import { Name } from "../types/pokemonSpecies";
 
 export const convertId = (id: number = 0): string => {
   let newId;
@@ -15,11 +16,30 @@ export const convertId = (id: number = 0): string => {
   }
 };
 
-export const convertToNumber = (target: string | undefined |null): number => {
+export const convertToNumber = (target: string | undefined | null): number => {
   if (!target) {
     return 0;
   } else {
     return Number(target);
+  }
+};
+
+export const convertNameToKoean = (names: Name[] | undefined): string => {
+  if (!names) {
+    return "";
+  } else {
+    const findName = names.find(
+      (name) => name.language.name === DEFAULT_LANGUAGE
+    );
+    return findName?.name || "";
+  }
+};
+
+export const convertTypeToKoean = (type:string): string => {
+  if (!type) {
+    return POKEMON_TYPES.unknown
+  } else {
+   return POKEMON_TYPES[type]
   }
 };
 

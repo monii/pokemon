@@ -34,6 +34,10 @@ const pokemonAPI = {
     const { data } = await pokemonAxios.get(`pokemon-species/${id}`);
     return data;
   },
+  getPokemonSpeciesByName: async (name: string): Promise<GetPokemonSpeciesDTO> => {
+    const { data } = await pokemonAxios.get(`pokemon-species/${name}`);
+    return data;
+  },
 };
 
 export default pokemonAPI;

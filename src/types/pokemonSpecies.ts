@@ -30,14 +30,14 @@ export interface GetPokemonSpeciesDTO {
   varieties: PokemonSpeciesVariety[];
 }
 
+export interface Name {
+  name: string;
+  language: GetPokemonWithNameDTO;
+}
+
 interface PokemonSpeciesDexEntry {
   entry_number: number;
   pokedex: GetPokemonWithNameDTO;
-}
-
-interface Name {
-  name: string;
-  language: GetPokemonWithNameDTO;
 }
 
 interface PalParkEncounterArea {
