@@ -5,21 +5,32 @@ import { useInfiniteQuery } from "react-query";
 
 import pokemonAPI from "../../api/pokemon";
 import PokemonList from "../pokemonList/PokemonList";
-import { GetPokemonListDTO } from "../../types/pokemon";
+import { GetPokemonDTO, GetPokemonListDTO } from "../../types/pokemon";
+import Search from "./components/Search";
+import { useSearchParams } from "react-router-dom";
+import { LIST_LIMIT } from "../../constant/const";
+import { convertToNumber } from "../../util/utile";
+import usePokemonStore from "../../store/pokemon";
+import PokemonCard from "../pokemonList/components/PokemonCard";
 
-const MainContainer = styled.div`
+const MainContainer = styled.main`
   padding: 0px 20px;
 `;
 
 function Main() {
   const { ref, inView } = useInView();
+  const { searchTerm } = usePokemonStore();
+  let [searchParams, setSearchParams] = useSearchParams();
+  const offset = searchParams.get("offset");
+
   const {
     data: pokemonList,
     fetchNextPage,
-    isLoading,
-  } = useInfiniteQuery<GetPokemonListDTO>(
-    ["getPokemonList"],
-    ({ pageParam = 0 }) => pokemonAPI.getPokemonList(pageParam),
+    status: getPokemonListStatus, // loading, error, success 중 하나의 상태, string,
+  } = useInfiniteQuery<GetPokemonListDTO | GetPokemonDTO>(
+    ["getPokemonList", searchTerm],
+    ({ pageParam: page = 0 }) =>
+      pokemonAPI.getPokemonList({ page, searchTerm }),
     {
       getNextPageParam: (lastPage, allPages) => {
         const { next }: any = lastPage;
@@ -31,20 +42,39 @@ function Main() {
 
   useEffect(() => {
     if (inView) {
+      setSearchParams(
+        `?limit=${LIST_LIMIT}&offset=${convertToNumber(offset) + LIST_LIMIT}`
+      );
       fetchNextPage();
     }
   }, [inView]);
 
+  console.log("pokemonList", pokemonList);
   return (
     <MainContainer>
-      {isLoading ? (
-        <div>로딩중...</div>
-      ) : (
+      <Search />
+      {getPokemonListStatus === "loading" && <div>로딩중...</div>}
+      {getPokemonListStatus === "success" && (
         <>
-          {pokemonList?.pages.map((page) => (
-            <PokemonList pokemons={page.results} />
-          ))}
-          <div ref={ref} />
+          {!searchTerm ? (
+            <>
+              {"results" in pokemonList &&
+                pokemonList.pages.map((page, index) => {
+                  if ("results" in page) {
+                    return <PokemonList key={index} pokemons={page.results} />;
+                  }
+                })}
+              <div ref={ref} />
+            </>
+          ) : (
+            <>
+              {pokemonList?.pages.map((page, index) => {
+                if ("name" in page) {
+                  return <PokemonCard key={index} pokemonName={page.name} />;
+                }
+              })}
+            </>
+          )}
         </>
       )}
     </MainContainer>

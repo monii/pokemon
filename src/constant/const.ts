@@ -23,3 +23,5 @@ export const COLORS: TypeColor = {
   steel: "#4682b4",
   default: "#fff",
 };
+
+export const LIST_LIMIT = 20;

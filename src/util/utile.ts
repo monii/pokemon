@@ -15,9 +15,9 @@ export const convertId = (id: number = 0): string => {
   }
 };
 
-export const convertToNumber = (target: string | undefined): number => {
+export const convertToNumber = (target: string | undefined |null): number => {
   if (!target) {
-    return 1;
+    return 0;
   } else {
     return Number(target);
   }
