@@ -2,9 +2,8 @@ import styled from "styled-components";
 import { useQuery } from "react-query";
 
 import pokemonAPI from "../../../api/pokemon";
-import convertId from "../../../util/convertId";
-import convertColor from "../../../util/convertColor";
 import { GetPokemonDTO, GetPokemonWithNameDTO } from "../../../types/pokemon";
+import { convertId, findColorByType } from "../../../util/utile";
 
 interface PokemonCardProps {
   pokemon: GetPokemonWithNameDTO;
@@ -39,7 +38,7 @@ function PokemonCard({ pokemon }: PokemonCardProps) {
 
   return (
     <CardContainer
-      borderColor={convertColor(pokemonInfo?.types[0].type.name || "default")}
+      borderColor={findColorByType(pokemonInfo?.types[0].type.name || "default")}
     >
       <Text>{convertId(pokemonInfo?.id)}</Text>
       <ImageWrapper>
