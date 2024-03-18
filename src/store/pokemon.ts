@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { splitString, convertToNumber } from "../util/utile";
+import { splitString, convertToNumber } from "../util/util";
 
 interface PokemonStore {
   evolutionId: number;

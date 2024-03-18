@@ -9,6 +9,7 @@ import { LIST_LIMIT } from "../../../constant/const";
 
 const SearchContainer = styled.section`
   padding: 20px 0px;
+  max-width: 1200px;
 `;
 const SearchWrapper = styled.div``;
 

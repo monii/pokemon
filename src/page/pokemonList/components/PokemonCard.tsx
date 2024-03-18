@@ -9,33 +9,36 @@ import {
   convertId,
   convertNameToKoean,
   findColorByType,
-} from "../../../util/utile";
+} from "../../../util/util";
 
 interface PokemonCardProps {
   pokemonName: string;
 }
 
 const CardContainer = styled.div<{ bordercolor: string }>`
+  display: flex;
   padding: 1.4rem;
   max-width: 230px;
+  flex-direction: column;
+  gap: 8px;
   border: 2px solid ${(props) => props.bordercolor};
   border-radius: 8px;
 `;
 const ImageWrapper = styled.section`
-  box-shadow: 0 0 10px 10px rgba(202, 201, 201, 0.05);
-  border-radius: 50%;
   width: 150px;
   height: 150px;
   text-align: center;
+  box-shadow: 0 0 10px 10px rgba(202, 201, 201, 0.05);
+  border-radius: 50%;
 `;
 const PokemonImage = styled.img`
   width: 85%;
   height: 85%;
 `;
-const DataWrapper = styled.section``;
-const Text = styled.p`
+const DataWrapper = styled.section`
   text-align: center;
 `;
+const Text = styled.p``;
 
 function PokemonCard({ pokemonName }: PokemonCardProps) {
   const { data: pokemonInfo } = useQuery<GetPokemonDTO>(

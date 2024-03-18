@@ -5,6 +5,8 @@ import { FaLongArrowAltLeft } from "react-icons/fa";
 
 import Chip from "../../components/common/Chip";
 import Evolution from "./components/Evolution";
+import Error from "../../components/common/Error";
+import Loading from "../../components/common/Loading";
 import usePokemonStore from "../../store/pokemon";
 import pokemonAPI from "../../api/pokemon";
 import { GetPokemonDTO } from "../../types/pokemon";
@@ -14,7 +16,7 @@ import {
   convertToNumber,
   convertTypeToKoean,
   findColorByType,
-} from "../../util/utile";
+} from "../../util/util";
 import { BACK_BUTTON_TEXT } from "../../constant/const";
 
 const PokemonDetailContainer = styled.div`
@@ -74,7 +76,8 @@ function PokemonDetail() {
   const navigate = useNavigate();
   const { id: pokemonId } = useParams();
   const { setEvolutionId } = usePokemonStore();
-  const { data: pokemonDetailInfo } = useQuery<GetPokemonDTO>(
+
+  const { data: pokemonDetailInfo, isLoading: isLoadingDetail, error: detailError } = useQuery<GetPokemonDTO>(
     ["getPokemonById", pokemonId],
     () => pokemonAPI.getPokemonById(convertToNumber(pokemonId)),
     {
@@ -82,7 +85,7 @@ function PokemonDetail() {
     }
   );
 
-  const { data: pokemonSpeciesInfo } = useQuery<GetPokemonSpeciesDTO>(
+  const { data: pokemonSpeciesInfo, isLoading: isLoadingSpecies, error: speciesError } = useQuery<GetPokemonSpeciesDTO>(
     ["getPokemonSpeciesById", pokemonId],
     () => pokemonAPI.getPokemonSpeciesById(convertToNumber(pokemonId)),
     {
@@ -95,6 +98,9 @@ function PokemonDetail() {
   const clickBackButton = () => {
     navigate(-1);
   };
+
+  if (isLoadingDetail || isLoadingSpecies) return <Loading />;
+  if (detailError || speciesError) return <Error />;
 
   return (
     <PokemonDetailContainer>
