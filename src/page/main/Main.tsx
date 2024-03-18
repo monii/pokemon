@@ -13,8 +13,6 @@ import Header from "../../components/common/Header";
 import usePokemonStore from "../../store/pokemon";
 import pokemonAPI from "../../api/pokemon";
 import { GetPokemonDTO, GetPokemonListDTO } from "../../types/pokemon";
-import { convertToNumber } from "../../util/util";
-import { LIST_LIMIT } from "../../constant/const";
 
 const MainContainer = styled.main`
   display: flex;
@@ -35,7 +33,6 @@ function Main() {
   const { ref, inView } = useInView();
   const { searchTerm } = usePokemonStore();
   const [searchParams, setSearchParams] = useSearchParams();
-  const offset = searchParams.get("offset");
 
   const {
     data: pokemonList,
@@ -57,9 +54,6 @@ function Main() {
   useEffect(() => {
     // 스크롤이 화면에 보일 때 추가 데이터를 로드합니다.
     if (inView && getPokemonListStatus === "success") {
-      setSearchParams(
-        `?limit=${LIST_LIMIT}&offset=${convertToNumber(offset) + LIST_LIMIT}`
-      );
       fetchNextPage();
     }
   }, [inView, getPokemonListStatus]);
