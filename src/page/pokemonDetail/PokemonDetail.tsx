@@ -23,7 +23,7 @@ const PokemonDetailContainer = styled.div`
   position: relative;
 `;
 const PokemonDetailChildren = styled.div`
-  padding: 12px 20px;
+  padding: 20px;
   max-width: 720px;
   position: absolute;
   top: 50%;
@@ -62,6 +62,9 @@ const NameText = styled.p`
   font-size: 1.4rem;
   font-weight: bold;
 `;
+const Text = styled.p`
+  padding-bottom: 12px;
+`;
 const TypeWrapper = styled.div`
   padding-bottom: 12px;
 `;
@@ -77,7 +80,11 @@ function PokemonDetail() {
   const { id: pokemonId } = useParams();
   const { setEvolutionId } = usePokemonStore();
 
-  const { data: pokemonDetailInfo, isLoading: isLoadingDetail, error: detailError } = useQuery<GetPokemonDTO>(
+  const {
+    data: pokemonDetailInfo,
+    isLoading: isLoadingDetail,
+    error: detailError,
+  } = useQuery<GetPokemonDTO>(
     ["getPokemonById", pokemonId],
     () => pokemonAPI.getPokemonById(convertToNumber(pokemonId)),
     {
@@ -85,7 +92,11 @@ function PokemonDetail() {
     }
   );
 
-  const { data: pokemonSpeciesInfo, isLoading: isLoadingSpecies, error: speciesError } = useQuery<GetPokemonSpeciesDTO>(
+  const {
+    data: pokemonSpeciesInfo,
+    isLoading: isLoadingSpecies,
+    error: speciesError,
+  } = useQuery<GetPokemonSpeciesDTO>(
     ["getPokemonSpeciesById", pokemonId],
     () => pokemonAPI.getPokemonSpeciesById(convertToNumber(pokemonId)),
     {
@@ -125,6 +136,8 @@ function PokemonDetail() {
           </ImageSection>
           <InfoWrapper>
             <NameText>{convertNameToKoean(pokemonSpeciesInfo?.names)}</NameText>
+            <Text>{`키: ${pokemonDetailInfo?.height}m`}</Text>
+            <Text>{`몸무게: ${pokemonDetailInfo?.weight}kg`}</Text>
             <TypeWrapper>
               {pokemonDetailInfo?.types.map((type) => (
                 <Chip
