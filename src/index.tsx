@@ -3,8 +3,8 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 
-import GlobalStyle from "./styles/globalStyle";
 import App from "./App";
+import GlobalStyle from "./styles/globalStyle";
 import { theme } from "./styles/theme";
 
 const queryClient = new QueryClient({

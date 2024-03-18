@@ -8,20 +8,32 @@ import PokemonList from "../pokemonList/PokemonList";
 import PokemonCard from "../pokemonList/components/PokemonCard";
 import Search from "./components/Search";
 import Loading from "../../components/common/Loading";
+import Error from "../../components/common/Error";
+import Header from "../../components/common/Header";
 import usePokemonStore from "../../store/pokemon";
 import pokemonAPI from "../../api/pokemon";
 import { GetPokemonDTO, GetPokemonListDTO } from "../../types/pokemon";
-import { convertToNumber } from "../../util/utile";
+import { convertToNumber } from "../../util/util";
 import { LIST_LIMIT } from "../../constant/const";
 
+
 const MainContainer = styled.main`
+  margin: 0 auto;
   padding: 0px 20px;
+`;
+const ListContainer = styled.section`
+  display: flex;
+  max-width: 1200px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
 `;
 
 function Main() {
   const { ref, inView } = useInView();
   const { searchTerm } = usePokemonStore();
-  let [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const offset = searchParams.get("offset");
 
   const {
@@ -42,43 +54,44 @@ function Main() {
   );
 
   useEffect(() => {
-    if (inView) {
+    // 스크롤이 화면에 보일 때 추가 데이터를 로드합니다.
+    if (inView && getPokemonListStatus === "success") {
       setSearchParams(
         `?limit=${LIST_LIMIT}&offset=${convertToNumber(offset) + LIST_LIMIT}`
       );
       fetchNextPage();
     }
-  }, [inView]);
+  }, [inView, getPokemonListStatus]);
 
   return (
     <MainContainer>
+      <Header />
       <Search />
       {getPokemonListStatus === "loading" && <Loading />}
+      {getPokemonListStatus === "error" && <Error />}
       {getPokemonListStatus === "success" && (
-        <>
+        <ListContainer>
           {searchTerm === "" ? (
+            // 기본 PokemonList 컴포넌트를 표시합니다.
             <>
-              {pokemonList?.pages.map((page, index) => {
-                if ("results" in page) {
-                  return <PokemonList key={index} pokemons={page.results} />;
-                } else {
-                  return null;
-                }
-              })}
+              {pokemonList?.pages.map((page, index) => (
+                "results" in page && (
+                  <PokemonList key={index} pokemons={page.results} />
+                )
+              ))}
               <div ref={ref} />
             </>
           ) : (
+            // 검색어가 있는 경우 PokemonCard 컴포넌트를 표시합니다.
             <>
-              {pokemonList?.pages.map((page, index) => {
-                if ("name" in page) {
-                  return <PokemonCard key={index} pokemonName={page.name} />;
-                } else {
-                  return null;
-                }
-              })}
+              {pokemonList?.pages.map((page, index) => (
+                "name" in page && (
+                  <PokemonCard key={index} pokemonName={page.name} />
+                )
+              ))}
             </>
           )}
-        </>
+        </ListContainer>
       )}
     </MainContainer>
   );

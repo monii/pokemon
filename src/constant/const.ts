@@ -58,3 +58,5 @@ export const DEFAULT_LANGUAGE = "ko";
 export const LOADIN_TEXT = "Loading...";
 
 export const BACK_BUTTON_TEXT = "뒤로가기";
+
+export const ERROR_TEXT = "앗!찾는 정보가 없습니다.";

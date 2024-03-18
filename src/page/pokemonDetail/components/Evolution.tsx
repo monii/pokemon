@@ -6,7 +6,7 @@ import { FaLongArrowAltRight } from "react-icons/fa";
 import usePokemonStore from "../../../store/pokemon";
 import pokemonAPI from "../../../api/pokemon";
 import { GetEvolutionChainsDTO } from "../../../types/pokemonEvolution";
-import { convertNameToKoean, getEvolutionChainWidthId } from "../../../util/utile";
+import { convertNameToKoean, getEvolutionChainWidthId } from "../../../util/util";
 
 const EvolutionContainer = styled.article`
   display: flex;

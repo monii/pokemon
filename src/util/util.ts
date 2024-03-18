@@ -1,4 +1,4 @@
-import { COLORS, DEFAULT_LANGUAGE, POKEMON_TYPES } from "../constant/const";
+import { DEFAULT_LANGUAGE, POKEMON_TYPES, COLORS } from "../constant/const";
 import { ChainLink } from "../types/pokemonEvolution";
 import { Name } from "../types/pokemonSpecies";
 

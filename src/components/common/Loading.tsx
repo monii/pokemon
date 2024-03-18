@@ -1,7 +1,12 @@
 import styled from "styled-components";
 import { LOADIN_TEXT } from "../../constant/const";
 
-const LoadingContainer = styled.div``;
+const LoadingContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+`;
 const LoadingText = styled.p`
   text-align: center;
   font-size: 1.4rem;
