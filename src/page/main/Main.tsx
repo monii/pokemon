@@ -15,6 +15,7 @@ import pokemonAPI from "../../api/pokemon";
 import { GetPokemonDTO, GetPokemonListDTO } from "../../types/pokemon";
 
 const MainContainer = styled.main`
+  margin: 0 auto;
   display: flex;
   max-width: 1200px;
   flex-direction: column;
@@ -28,11 +29,24 @@ const ListContainer = styled.section`
   flex-wrap: wrap;
   gap: 10px;
 `;
+const SearchContainer = styled.section`
+  position: relative;
+`;
+
+const ResetButton = styled.button`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 20px;
+  padding: 12px;
+  width: 5rem;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px 4px rgb(0 0 0/30%);
+`;
 
 function Main() {
   const { ref, inView } = useInView();
-  const { searchTerm } = usePokemonStore();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { searchTerm, setSearchTerm, setUserInput } = usePokemonStore();
 
   const {
     data: pokemonList,
@@ -50,6 +64,11 @@ function Main() {
       },
     }
   );
+
+  const clickAllSearch = () => {
+    setSearchTerm("");
+    setUserInput("")
+  };
 
   useEffect(() => {
     // 스크롤이 화면에 보일 때 추가 데이터를 로드합니다.
@@ -79,14 +98,15 @@ function Main() {
             </>
           ) : (
             // 검색어가 있는 경우 PokemonCard 컴포넌트를 표시합니다.
-            <>
+            <SearchContainer>
               {pokemonList?.pages.map(
                 (page, index) =>
                   "name" in page && (
                     <PokemonCard key={index} pokemonName={page.name} />
                   )
               )}
-            </>
+              <ResetButton onClick={clickAllSearch}>전체검색</ResetButton>
+            </SearchContainer>
           )}
         </ListContainer>
       )}

@@ -14,15 +14,11 @@ const SearchContainer = styled.section`
 const SearchWrapper = styled.div``;
 
 function Search() {
-  const { setSearchTerm } = usePokemonStore();
-  let [searchParams, setSearchParams] = useSearchParams();
-  // 실시간으로 유저가 입력한 input 값
-  const [userInput, setUserInput] = useState("");
+  const { userInput, setSearchTerm, setUserInput } = usePokemonStore();
   const debouncedSearchTerm = useDebounce(userInput, 800);
 
   const filterByKeyword = (searchId: string) => {
     if (!!userInput) {
-      setSearchParams(`?searchTerm=${searchId}&limit=${LIST_LIMIT}&offset=0`);
       setSearchTerm(searchId);
     }
   };
