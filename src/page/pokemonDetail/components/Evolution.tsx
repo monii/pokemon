@@ -89,7 +89,7 @@ function Evolution() {
 
   useEffect(()=>{
     return()=>{
-      setEvolutionId("0"); // unmount시에 전역스토어의 값을 초기화
+      setEvolutionId("0"); // unmount시에 전역스토어의 값을 초기화 합니다.
     }
   },[])
 

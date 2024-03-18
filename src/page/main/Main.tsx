@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "react-query";
-import { useSearchParams } from "react-router-dom";
 
 import PokemonList from "../pokemonList/PokemonList";
 import PokemonCard from "../pokemonList/components/PokemonCard";

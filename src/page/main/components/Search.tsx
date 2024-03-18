@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useEffect} from "react";
+
 
 import Input from "../../../components/common/Input";
 import useDebounce from "../../../hook/useDebounce";
 import usePokemonStore from "../../../store/pokemon";
-import { LIST_LIMIT } from "../../../constant/const";
+
 
 const SearchContainer = styled.section`
   padding: 20px;
