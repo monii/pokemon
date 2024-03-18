@@ -16,14 +16,15 @@ import { GetPokemonDTO, GetPokemonListDTO } from "../../types/pokemon";
 import { convertToNumber } from "../../util/util";
 import { LIST_LIMIT } from "../../constant/const";
 
-
 const MainContainer = styled.main`
-  margin: 0 auto;
-  padding: 0px 20px;
+  display: flex;
+  max-width: 1200px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 const ListContainer = styled.section`
   display: flex;
-  max-width: 1200px;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
@@ -74,21 +75,23 @@ function Main() {
           {searchTerm === "" ? (
             // 기본 PokemonList 컴포넌트를 표시합니다.
             <>
-              {pokemonList?.pages.map((page, index) => (
-                "results" in page && (
-                  <PokemonList key={index} pokemons={page.results} />
-                )
-              ))}
+              {pokemonList?.pages.map(
+                (page, index) =>
+                  "results" in page && (
+                    <PokemonList key={index} pokemons={page.results} />
+                  )
+              )}
               <div ref={ref} />
             </>
           ) : (
             // 검색어가 있는 경우 PokemonCard 컴포넌트를 표시합니다.
             <>
-              {pokemonList?.pages.map((page, index) => (
-                "name" in page && (
-                  <PokemonCard key={index} pokemonName={page.name} />
-                )
-              ))}
+              {pokemonList?.pages.map(
+                (page, index) =>
+                  "name" in page && (
+                    <PokemonCard key={index} pokemonName={page.name} />
+                  )
+              )}
             </>
           )}
         </ListContainer>
