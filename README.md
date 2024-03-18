@@ -1,46 +1,51 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 📖 프로젝트 소개
+* 스튜디오메이트 FE 포켓몬 도감 과제입니다.
+## ⚙️ 개발 환경
+개발 환경은 아래와 같습니다.
+* React.JS
+* TypeScript
+* Zustand
+* Styled-component
+* react-router-dom
+* axios
+* react-intersection-observer
+## 🖥️ 로컬 실행 방법 
+1. `package.json`에 설치된 라이브러리를 다운받기 위해서 아래의 명령어를 실행해 주세요.
+    ```
+    npm i
+    ```
+2. 웹 서버를 실행 해주세요.
+    ```
+    npm start
+    ```
+## 기술 스택 선택 이유
+1. TypeScript
+* 선언 및 컴파일 단계에서 오류를 캐치할 수 있습니다.
+* 함수명으로만 의도를 캐치하기 어려운 경우, 추가적인 정보로 협업하는 과정에서 용이합니다.
+2.  Zustand
+*  프로바이더로 감싸지 않아도 되기때문에  렌더링 트리를 단순화시킬 수 있습니다.
+* 학습의 러닝커브가 낮고, 간결합니다.
+3. Styled-Component
+* 컴포넌트 단위로 스타일을 지정할 수 있습니다.
+* 컴포넌트의 props를 참조하여 원하는 스타일을 구현하기 용이합니다.
+* 유니크한 클래스를 자동으로 생성하기 때문에 코드 경량화의 장점이 있습니다.
+## 폴더구조
+```
+src
+├─api
+├─components
+│  └─common
+├─constant
+├─hook
+├─page
+│  ├─main
+│  │  └─components
+│  ├─pokemonDetail
+│  │  └─components
+│  └─pokemonList
+│      └─components
+├─store
+├─styles
+├─types
+└─util
+```
